@@ -17,6 +17,8 @@ with open('准星.txt') as f:
 
 WEN = yaml.load(open('文.yaml'), Loader=yaml.BaseLoader)
 
+ALIAS = yaml.load(open('文.alias.yaml'), Loader=yaml.BaseLoader)
+
 n = 5
 ts = [1/n * i for i in range(1, n+1)]
 
@@ -111,17 +113,18 @@ def c(argList):
         r = cubic(t, this, first, second, end)
         turtle.goto(r.c)
 
-zi = '夫'
+zi = '那左'
+source = zi if len(zi) == 1 else '那' #ALIAS[zi][0]
 
 # 绘制苹方
-pf = PF[zi]
+pf = PF[source]
 for stroke in pf:
     func = stroke[0]
     argList = stroke[1:]
     eval(func)(argList)
 
 # 绘制准星
-zx = ZX[zi]
+zx = ZX[source]
 for stroke in zx:
     func = stroke[0]
     argList = stroke[1:]
