@@ -15,11 +15,17 @@ with open('准星.txt') as f:
         path = [[x[0]] + [int(y) for y in x[1:].strip().split(' ')] for x in path.split(';')]
         ZX[char] = path
 
-WEN = yaml.load(open('文.yaml'), Loader=yaml.BaseLoader)
+WEN_ = yaml.load(open('文.new.yaml'), Loader=yaml.BaseLoader)
+WEN = {}
+for wen, strokeList in WEN_.items():
+    pathList = []
+    for stroke in strokeList:
+        pathList.append(stroke.split(';', 1)[1])
+    WEN[wen] = [[x[0]] + [int(y) for y in x[1:].strip().split(' ')] for x in ';'.join(pathList).split(';')]
 
 ALIAS = yaml.load(open('文.alias.yaml'), Loader=yaml.BaseLoader)
 
-n = 5
+n = 10
 ts = [1/n * i for i in range(1, n+1)]
 
 turtle.setup(width=1000, height=1000)
@@ -52,6 +58,9 @@ def cubic(t, P1, P2, P3, P4):
     输出：参数取为 t 时的坐标
     """
     return (1-t)**3*P1 + 3*(1-t)**2*t*P2 + 3*(1-t)*t**2*P3 + t**3*P4
+
+def quad(t, P1, P2, P3):
+    return (1-t)**2*P1 + 2*(1-t)*t*P2 + t**2*P3
 
 def pos():
     """
@@ -113,8 +122,21 @@ def c(argList):
         r = cubic(t, this, first, second, end)
         turtle.goto(r.c)
 
-zi = '那左'
-source = zi if len(zi) == 1 else '那' #ALIAS[zi][0]
+def q(argList):
+    """
+    输入：c 即曲线，接受一个数组 (x1, y1, x2, y2, x3, y3) 的输入
+    输出：绘制由四个点组成的三次 Bezier 曲线
+    """
+    x1, y1, x2, y2 = argList
+    this = pos()
+    mid = this + Point(x1, y1)
+    end = this + Point(x2, y2)
+    for t in ts:
+        r = quad(t, this, mid, end)
+        turtle.goto(r.c)
+
+zi = '女'
+source = zi if len(zi) == 1 else ALIAS[zi][0]
 
 # 绘制苹方
 pf = PF[source]
@@ -133,15 +155,26 @@ for stroke in zx:
 turtle.color('red')
 turtle.pu()
 
+# turtle.goto(515, 50)
+# turtle.pd()
+# q([60, 800, -365, 875])
+# turtle.pu()
+
 # 绘制数据库
-zi = WEN[zi]
-for stroke in zi:
-    points = stroke[1:]
-    turtle.goto([int(x) for x in points[0]])
-    turtle.pd()
-    for point in points[1:]:
-        turtle.goto([int(x) for x in point])
-    turtle.pu()
+wen = WEN[zi]
+for stroke in wen:
+    func = stroke[0]
+    argList = stroke[1:]
+    eval(func)(argList)
+
+# zi = WEN[zi]
+# for stroke in zi:
+#     points = stroke[1:]
+#     turtle.goto([int(x) for x in points[0]])
+#     turtle.pd()
+#     for point in points[1:]:
+#         turtle.goto([int(x) for x in point])
+#     turtle.pu()
 
 turtle.exitonclick()
 turtle.done()
