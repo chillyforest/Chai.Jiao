@@ -28,4 +28,12 @@ pip install PyYAML
 4. 更改完成，用户确认后，将用户的修改；若用户取消，则丢弃修改；
 5. 校对工作暂停时，程序将改动的字此前的版本盖上时间戳，将改动后的字加入数据库，重新储存到「文.yaml」中。
 
+# 项目进展和说明
 
+1. YAML文件可导入至前端，从前端数据可导出YAML文件。导入内容可在开发者工具中查看log。
+2. 安装运行命令：
+   1. 安装Node.js：https://nodejs.org/en/download/
+   2. npm i
+   3. npm run build
+   4. npm start
+   5. 打开http://localhost:8080/
