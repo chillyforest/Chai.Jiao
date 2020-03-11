@@ -2,3 +2,13 @@ h1 {
     color: #27aedb;
     text-align: center;
 }
+
+#char-container {
+    display: inline-block;
+    height: 100px;
+    width: 50px;
+}
+
+#edit-window {
+    display: inline-block;
+}

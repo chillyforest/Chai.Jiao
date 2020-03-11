@@ -30,6 +30,7 @@
     "webpack-dev-server": "^3.9.0"
   },
   "dependencies": {
+    "d3": "^5.15.0",
     "file-saver": "^2.0.2",
     "js-yaml": "^3.13.1",
     "react": "^16.12.0",

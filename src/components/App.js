@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import yaml from 'js-yaml';
 import { saveAs } from 'file-saver';
+import FileImport from './FileImport';
+import FileExport from './FileExport';
+import Panel from './Panel';
 
 import '../styles/App.css';
 
@@ -9,7 +12,12 @@ class App extends Component {
         super(props);
         this.handleFiles = this.handleFiles.bind(this);
         this.exportFiles = this.exportFiles.bind(this);
-        this.data = null;
+        this.updateData = this.updateData.bind(this);
+        this.updateKey = this.updateKey.bind(this);
+        this.state = {
+            data: [],
+            selectedKey: null
+        }
     }
 
     handleFiles() {
@@ -38,16 +46,22 @@ class App extends Component {
         }
     }
 
+    updateData(newData) {
+        this.setState({ data: newData });
+    }
+
+    updateKey(newKey) {
+        this.setState({ selectedKey: newKey });
+    }
+
     render() {
         return (
             <div>
                 <h1>笔画数据校对</h1>
-                <div>
-                    <input type="file" id="files" onChange={this.handleFiles} />
-                </div>
-                <div>
-                    <input type="button" id="export" value="导出" onClick={this.exportFiles} />
-                </div>
+                <FileImport updateData={this.updateData} />
+                <Panel data={this.state.data} updateKey={this.updateKey} />                
+                <FileExport data={this.state.data} />
+                <div onClick={() => {console.log(this.state.selectedKey)}}>check imported</div>
             </div>
         );
     }
